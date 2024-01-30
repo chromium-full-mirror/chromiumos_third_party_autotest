@@ -15,5 +15,9 @@
   <Entry include="CtsAtraceHostTestCases[instant] android.atrace.cts.AtraceHostTest#testAsyncBeginEndSection" />
   <Entry include="CtsAtraceHostTestCases[instant] android.atrace.cts.AtraceHostTest#testCounter" />
   <Entry include="CtsAtraceHostTestCases[instant] android.atrace.cts.AtraceHostTest#testTracingContent" />
-  <!-- NOTE: Waiver job is disabled on M114. Remember to re-enable them if any tests added here are applicable to M114. -->
+  <!-- b/315920750; fixed in 11_r16 -->
+  <Entry include="CtsJniTestCases android.jni.cts.JniStaticTest#test_linker_namespaces" />
+  <Entry include="CtsJniTestCases[instant] android.jni.cts.JniStaticTest#test_linker_namespaces" />
+  <!-- b/322574317: fixed in 11_r16 -->
+  <Entry include="CtsLibcoreTestCases libcore.java.security.cert.X509CertificateTest#test_Provider" />
 </SubPlan>
