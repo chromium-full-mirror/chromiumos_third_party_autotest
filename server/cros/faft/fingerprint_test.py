@@ -106,8 +106,7 @@ class FingerprintTest(test.test):
                     'rex': 'bloonchipper_v2.0.5938-197506c1',
             },
             _FP_BOARD_NAME_DARTMONKEY: 'dartmonkey_v2.0.2887-311310808',
-            # TODO(b/309031375): This has to be updated until we freeze RO.
-            _FP_BOARD_NAME_HELIPILOT: 'helipilot_v2.0.24242-633432111f',
+            _FP_BOARD_NAME_HELIPILOT: 'helipilot_v2.0.24337-2726e9f149',
             _FP_BOARD_NAME_NOCTURNE: 'nocturne_fp_v2.2.64-58cf5974e',
             _FP_BOARD_NAME_NAMI: 'nami_fp_v2.2.144-7a08e07eb',
     }
@@ -188,16 +187,16 @@ class FingerprintTest(test.test):
                     },
             },
             _FP_BOARD_NAME_HELIPILOT: {
-                    'helipilot_v2.0.24242-633432111f.bin':
+                    'helipilot_v2.0.24337-2726e9f149.bin':
                     {
                             _FIRMWARE_VERSION_SHA256SUM:
-                            'ddb5473d432b7ad102a5ace20f2bb043fe528d63336066af82326bddc6babd25',
+                            'ab6a3561676c58c8ce0f37e85b8ffa762259dd2f7dab15890750a2a1f6f369b1',
                             _FIRMWARE_VERSION_RO_VERSION:
-                            'helipilot_v2.0.24242-633432111f',
+                            'helipilot_v2.0.24337-2726e9f149',
                             _FIRMWARE_VERSION_RW_VERSION:
-                            'helipilot_v2.0.24242-633432111f',
+                            'helipilot_v2.0.24337-2726e9f149',
                             _FIRMWARE_VERSION_KEY_ID:
-                            'ff60ba1fe2cf13f60d0debfb350f7c321115e59a',
+                            '3c0b147809e06f279ba0cf221c18995d7b4e3f1a',
                     },
             },
     }
