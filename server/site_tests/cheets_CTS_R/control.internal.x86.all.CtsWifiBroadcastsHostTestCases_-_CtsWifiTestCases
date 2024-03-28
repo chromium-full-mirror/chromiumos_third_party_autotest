@@ -3,6 +3,8 @@
 # found in the LICENSE file.
 
 # This file has been automatically generated. Do not edit!
+from autotest_lib.server.cros.tradefed import wifi_utils
+import pipes
 
 AUTHOR = 'n/a'
 NAME = 'cheets_CTS_R.internal.x86.all.CtsWifiBroadcastsHostTestCases_-_CtsWifiTestCases'
@@ -21,6 +23,7 @@ DOC = 'n/a'
 
 def run_TS(machine):
     host_list = [hosts.create_host(machine)]
+    ssid, wifipass = wifi_utils.get_wifi_ssid_pass(machine['hostname'])
     job.run_test(
         'cheets_CTS_R',
         hosts=host_list,
@@ -34,6 +37,7 @@ def run_TS(machine):
         target_plan=None,
         bundle='x86',
         uri='LATEST',
+        precondition_commands=['adb shell cmd wifi add-network %s %s %s' % (pipes.quote(ssid), 'open' if wifipass == '' else 'wpa', pipes.quote(wifipass)), 'adb shell cmd wifi connect-network %s' % pipes.quote(ssid), 'adb shell dumpsys wifi transports -eth'],
         timeout=172800)
 
 parallel_simple(run_TS, machines)
