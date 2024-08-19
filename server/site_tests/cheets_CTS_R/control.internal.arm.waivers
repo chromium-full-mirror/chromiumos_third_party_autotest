@@ -6,7 +6,7 @@
 from autotest_lib.server.cros.tradefed import wifi_utils
 import pipes
 
-NAME = 'cheets_CTS_R.internal.x86.waivers'
+NAME = 'cheets_CTS_R.internal.arm.waivers'
 METADATA = {
     "contacts": ["arc-cts-eng@google.com"],
     "bug_component": "b:183644",
@@ -14,7 +14,7 @@ METADATA = {
 }
 # TODO(b/287160788): Move away from long suite
 ATTRIBUTES = 'suite:arc-cts-qual, suite:arc-cts-qual-long, suite:arc-cts-hardware'
-DEPENDENCIES = 'arc, cts_abi_x86'
+DEPENDENCIES = 'arc'
 HW_DEPS = ['android-container-rvc','android-vm-rvc']
 JOB_RETRIES = 1
 TEST_TYPE = 'server'
@@ -28,14 +28,15 @@ def run_TS(machine):
         hosts=host_list,
         iterations=1,
         max_retry=10,
-        tag='internal.x86.waivers',
-        test_name='cheets_CTS_R.internal.x86.waivers',
-        run_template=['run', 'commandAndExit', 'cts', '--subplan', 'waivers'],
+        tag='internal.arm.waivers',
+        test_name='cheets_CTS_R.internal.arm.waivers',
+        # b/359402657: Waived tests don't require media assets, so skip downloading.
+        run_template=['run', 'commandAndExit', 'cts', '--subplan', 'waivers', '--module-arg', 'CtsMediaTestCases:skip-media-download:true'],
         retry_template=['run', 'commandAndExit', 'retry', '--retry', '{session_id}'],
         target_module='cts-dev',
         target_plan='waivers',
-        bundle='x86',
+        bundle='arm',
         uri='DEV_WAIVER',
-        timeout=14400)
+        timeout=7200)
 
 parallel_simple(run_TS, machines)
