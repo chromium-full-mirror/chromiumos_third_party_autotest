@@ -28,7 +28,8 @@ def run_TS(machine):
         max_retry=10,
         tag='arm.waivers',
         test_name='cheets_CTS_R.arm.waivers',
-        run_template=['run', 'commandAndExit', 'cts', '--subplan', 'waivers'],
+        # b/359402657: Waived tests don't require media assets, so skip downloading.
+        run_template=['run', 'commandAndExit', 'cts', '--subplan', 'waivers', '--module-arg', 'CtsMediaTestCases:skip-media-download:true'],
         retry_template=['run', 'commandAndExit', 'retry', '--retry', '{session_id}'],
         target_module='cts-dev',
         target_plan='waivers',
