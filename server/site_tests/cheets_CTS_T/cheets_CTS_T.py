@@ -51,6 +51,13 @@ class cheets_CTS_T(tradefed_test.TradefedTest):
     def _tradefed_cmd_path(self):
         return os.path.join(self._repository, 'tools', 'cts-tradefed')
 
+    def _tradefed_env(self):
+        env = super()._tradefed_env()
+        # TODO(b/339791684): Switch to use ATS once we support it for 13r11.
+        # For now unconditionally disabling it for waiver (dev) jobs.
+        env['USE_ATS'] = 'false'
+        return env
+
     def initialize_camerabox(self, camera_facing, cmdline_args):
         """Configure DUT and chart running in camerabox environment.
 
