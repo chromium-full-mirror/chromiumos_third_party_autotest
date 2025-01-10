@@ -54,9 +54,9 @@ class cheets_CTS_T(tradefed_test.TradefedTest):
 
     def _tradefed_env(self):
         env = super()._tradefed_env()
-        # TODO(b/339791684): Switch legacy drones to use ATS once we support it.
-        if not client_utils.is_cloudbot():
-            env['USE_ATS'] = 'false'
+        # TODO(b/339791684): Switch to use ATS once we support it for 13r11.
+        # For now unconditionally disabling it for waiver (dev) jobs.
+        env['USE_ATS'] = 'false'
         return env
 
     def initialize_camerabox(self, camera_facing, cmdline_args):
