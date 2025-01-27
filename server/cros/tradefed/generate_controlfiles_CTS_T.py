@@ -605,6 +605,7 @@ CONFIG['PRECONDITION'] = {
         # b/390260941#comment61: Extend idle timeout to avoid interfering with
         # doze mode-related tests.
         'CtsHostsideNetworkTests': [
+                "'adb shell device_config set_sync_disabled_for_tests persistent'",
                 "'adb shell device_config put device_idle idle_to 90000'",
         ]
 }
@@ -622,6 +623,7 @@ CONFIG['PUBLIC_PRECONDITION'] = {
         # b/390260941#comment61: Extend idle timeout to avoid interfering with
         # doze mode-related tests.
         'CtsHostsideNetworkTests': [
+                "'adb shell device_config set_sync_disabled_for_tests persistent'",
                 "'adb shell device_config put device_idle idle_to 90000'",
         ]
 }
