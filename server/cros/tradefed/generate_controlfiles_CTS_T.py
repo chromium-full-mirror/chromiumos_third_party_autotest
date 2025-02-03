@@ -368,6 +368,7 @@ CONFIG['CTS_TIMEOUT'] = {
         'CtsDeqpTestCases.dEQP-VK': 15.0,
         'CtsFileSystemTestCases': 3.0,
         'CtsHardwareTestCases': 2.0,
+        'CtsHostsideNetworkTests': 2.0,
         'CtsIcuTestCases': 2.0,
         'CtsKeystoreTestCases': 2.0,
         'CtsLibcoreOjTestCases': 2.0,
