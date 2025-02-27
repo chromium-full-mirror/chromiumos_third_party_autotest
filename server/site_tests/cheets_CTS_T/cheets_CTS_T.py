@@ -53,8 +53,8 @@ class cheets_CTS_T(tradefed_test.TradefedTest):
 
     def _tradefed_env(self):
         env = super()._tradefed_env()
-        # TODO(b/339791684): Switch to use ATS once we support it for 13r11.
-        # For now unconditionally disabling it for waiver (dev) jobs.
+        # TODO(b/339791684): Enable ATS console on qual/public jobs after
+        # blockers are fixed and DEV jobs are stabilized.
         env['USE_ATS'] = 'false'
         return env
 
