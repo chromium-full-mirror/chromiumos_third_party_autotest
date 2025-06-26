@@ -1653,7 +1653,7 @@ class TradefedTest(test.test):
         env['TF_SERVICE_PORT'] = '0'
         return env
 
-    def _run_tradefed_with_timeout(self, command, timeout):
+    def _run_tradefed_with_timeout(self, command, timeout, stdin=None):
         tradefed = self._tradefed_cmd_path()
         with tradefed_utils.adb_keepalive(self._adb.get_adb_targets(
                 self._hosts),
@@ -1662,16 +1662,17 @@ class TradefedTest(test.test):
             logging.info('RUN(timeout=%d): %s', timeout,
                          ' '.join([tradefed] + command))
             output = self._run(
-                tradefed,
-                args=tuple(command),
-                env=self._tradefed_env(),
-                timeout=timeout,
-                verbose=True,
-                ignore_status=False,
-                # Make sure to tee tradefed stdout/stderr to autotest logs
-                # continuously during the test run.
-                stdout_tee=utils.TEE_TO_LOGS,
-                stderr_tee=utils.TEE_TO_LOGS)
+                    tradefed,
+                    args=tuple(command),
+                    env=self._tradefed_env(),
+                    timeout=timeout,
+                    verbose=True,
+                    ignore_status=False,
+                    stdin=stdin,
+                    # Make sure to tee tradefed stdout/stderr to autotest logs
+                    # continuously during the test run.
+                    stdout_tee=utils.TEE_TO_LOGS,
+                    stderr_tee=utils.TEE_TO_LOGS)
             logging.info('END: %s\n', ' '.join([tradefed] + command))
         return output
 
@@ -1686,7 +1687,13 @@ class TradefedTest(test.test):
                         'Hitting job time limit: only %s seconds left' %
                         clipped)
             timeout = clipped
-        return self._run_tradefed_with_timeout(command, timeout)
+
+        return self._run_tradefed_with_timeout(
+                command,
+                timeout,
+                # gts-tradefed exits when stdin reaches EOF.
+                # Setting stdin=subprocess.PIPE avoids the early termination.
+                stdin=subprocess.PIPE)
 
     def _run_tradefed_with_retries(self,
                                    test_name,
