@@ -101,6 +101,8 @@ class UpdateEngineTest(test.test, update_engine_util.UpdateEngineUtil):
     _CACHE_SERVER_URL_PATTERN = 'http://%s:8082'
     _CACHE_SERVER_HEALTH_CHECK_PATTERN = f'{_CACHE_SERVER_URL_PATTERN}/check_health'
 
+    _NO_UPDATE = 'no update'
+
     def initialize(self, host=None, **kwargs):
         """
         Sets default variables for the test.
@@ -1201,25 +1203,31 @@ class UpdateEngineTest(test.test, update_engine_util.UpdateEngineUtil):
             board = board.replace('_', '-')
         channel = 'stable-channel'
 
-        if lsbrelease_utils.is_moblab():
-            logging.info('Searching the serving builds CSV for Moblab.')
-            with autotemp.tempfile('get_serving_stable_build') as t:
-                six.moves.urllib.request.urlretrieve(
-                        "https://chromiumdash.appspot.com"
-                        "/cros/download_serving_builds_csv?"
-                        "deviceCategory=ChromeOS", t.name)
-                stable_build_idx = None
-                reader = csv.reader(t.fo, delimiter=',')
-                # Parse first row to find index of `cros_stable` for the cros
-                # build number and `cr_stable` for the milestone number.
-                first_row = next(reader)
-                target_build_idx = first_row.index('cros_stable')
-                target_cr_idx = first_row.index('cr_stable')
-                for row in reader:
-                    if row[0].startswith(board):
+        logging.info('Searching the serving builds CSV.')
+        with autotemp.tempfile('get_serving_stable_build') as t:
+            six.moves.urllib.request.urlretrieve(
+                    "https://chromiumdash.appspot.com"
+                    "/cros/download_serving_builds_csv?"
+                    "deviceCategory=ChromeOS", t.name)
+            stable_build_idx = None
+            reader = csv.reader(t.fo, delimiter=',')
+            # Parse first row to find index of `cros_stable` for the cros
+            # build number and `cr_stable` for the milestone number.
+            first_row = next(reader)
+            target_build_idx = first_row.index('cros_stable')
+            target_cr_idx = first_row.index('cr_stable')
+            # Initialize target_build and target_cr in case they are not
+            # present in the CSV
+            target_build = None
+            target_cr = None
+
+            for row in reader:
+                if row[0].startswith(board):
+                    if (row[target_build_idx].strip() != self._NO_UPDATE
+                            and row[target_cr_idx].strip() != self._NO_UPDATE):
                         target_build = row[target_build_idx]
                         target_cr = row[target_cr_idx]
-                        break
+                    break
 
             if target_build is not None and target_cr is not None:
                 logging.info('Found stable build %s, Chrome %s', target_build,
